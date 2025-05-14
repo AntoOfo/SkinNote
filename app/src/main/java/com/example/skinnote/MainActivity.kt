@@ -1,13 +1,17 @@
 package com.example.skinnote
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextClock
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // mutable texts
-        val timeText = findViewById<TextView>(R.id.timeText)
+        val timeText = findViewById<TextClock>(R.id.timeText)
         val dateText = findViewById<TextView>(R.id.dateText)
         val skinfeelText = findViewById<TextView>(R.id.skinfeelText)
 
@@ -33,6 +37,10 @@ class MainActivity : AppCompatActivity() {
 
         // buttons
         val addBtn = findViewById<ImageView>(R.id.addBtn)
+        val menuBtn = findViewById<ImageView>(R.id.menuBtn)
+
+        timeText.format12Hour = null
+        timeText.format24Hour = "HH:mm"
 
     }
 }

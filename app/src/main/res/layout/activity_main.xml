@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <TextClock
         android:id="@+id/timeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +17,9 @@
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:format24Hour="HH:mm"
+        android:format12Hour="@null" />
 
     <TextView
         android:id="@+id/dateText"
@@ -47,12 +49,13 @@
         android:id="@+id/faceSpinner"
         android:layout_width="154dp"
         android:layout_height="46dp"
+        android:layout_marginTop="38dp"
         android:layout_marginEnd="24dp"
         android:background="#C1C1C1"
         android:backgroundTint="#000000"
         android:backgroundTintMode="add"
-        app:layout_constraintBaseline_toBaselineOf="@+id/fwashText"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateText" />
 
     <TextView
         android:id="@+id/cleanserText"
@@ -70,10 +73,11 @@
         android:id="@+id/cleanserSpinner"
         android:layout_width="154dp"
         android:layout_height="46dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="24dp"
         android:background="#C0C0C0"
-        app:layout_constraintBaseline_toBaselineOf="@+id/cleanserText"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/faceSpinner" />
 
     <TextView
         android:id="@+id/serumText"
@@ -91,10 +95,11 @@
         android:id="@+id/serumSpinner"
         android:layout_width="154dp"
         android:layout_height="46dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="24dp"
         android:background="#BFBFBF"
-        app:layout_constraintBaseline_toBaselineOf="@+id/serumText"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cleanserSpinner" />
 
     <TextView
         android:id="@+id/moisText"
@@ -112,10 +117,11 @@
         android:id="@+id/moisSpinner"
         android:layout_width="154dp"
         android:layout_height="46dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="24dp"
         android:background="#BEBEBE"
-        app:layout_constraintBaseline_toBaselineOf="@+id/moisText"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/serumSpinner" />
 
     <SeekBar
         android:id="@+id/seekBar"
@@ -153,11 +159,12 @@
         app:srcCompat="@drawable/plusbutton" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/menuBtn"
         android:layout_width="38dp"
         android:layout_height="40dp"
-        android:layout_marginStart="356dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.938"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/menubutton" />
