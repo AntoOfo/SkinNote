@@ -1,6 +1,9 @@
 package com.example.skinnote
 
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,5 +19,20 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // mutable texts
+        val timeText = findViewById<TextView>(R.id.timeText)
+        val dateText = findViewById<TextView>(R.id.dateText)
+        val skinfeelText = findViewById<TextView>(R.id.skinfeelText)
+
+        // spinners
+        val faceSpinner = findViewById<Spinner>(R.id.faceSpinner)
+        val cleanserSpinner = findViewById<Spinner>(R.id.cleanserSpinner)
+        val serumSpinner = findViewById<Spinner>(R.id.serumSpinner)
+        val moisSpinner = findViewById<Spinner>(R.id.moisSpinner)
+
+        // buttons
+        val addBtn = findViewById<ImageView>(R.id.addBtn)
+
     }
 }
