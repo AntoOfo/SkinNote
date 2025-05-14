@@ -50,6 +50,7 @@
         android:layout_height="46dp"
         android:layout_marginTop="60dp"
         android:background="#C1C1C1"
+        android:backgroundTint="#000000"
         android:backgroundTintMode="add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.619"
@@ -57,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/dateText" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/cleanserText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
@@ -67,4 +68,88 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fwashText" />
+
+    <Spinner
+        android:layout_width="154dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="140dp"
+        android:background="#C0C0C0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.677"
+        app:layout_constraintStart_toEndOf="@+id/cleanserText"
+        app:layout_constraintTop_toBottomOf="@+id/dateText" />
+
+    <TextView
+        android:id="@+id/serumText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="56dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Serum:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cleanserText" />
+
+    <Spinner
+        android:layout_width="154dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="224dp"
+        android:background="#BFBFBF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.731"
+        app:layout_constraintStart_toEndOf="@+id/serumText"
+        app:layout_constraintTop_toBottomOf="@+id/dateText" />
+
+    <TextView
+        android:id="@+id/moisText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="56dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Moisturiser:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/serumText" />
+
+    <Spinner
+        android:layout_width="154dp"
+        android:layout_height="46dp"
+        android:background="#BEBEBE"
+        tools:layout_editor_absoluteX="217dp"
+        tools:layout_editor_absoluteY="447dp" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="327dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/moisText" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-light"
+        android:text="How does your skin feel today?"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+
+    <ImageView
+        android:id="@+id/addBtn"
+        android:layout_width="56dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        app:layout_constraintVertical_bias="0.559"
+        app:srcCompat="@drawable/plusbutton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
