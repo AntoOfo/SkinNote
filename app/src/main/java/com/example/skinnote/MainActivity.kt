@@ -3,6 +3,7 @@ package com.example.skinnote
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.TextClock
 import android.widget.TextView
@@ -38,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         // buttons
         val addBtn = findViewById<ImageView>(R.id.addBtn)
         val menuBtn = findViewById<ImageView>(R.id.menuBtn)
+
+        val skinBar = findViewById<SeekBar>(R.id.skinBar)
 
         timeText.format12Hour = null
         timeText.format24Hour = "HH:mm"
