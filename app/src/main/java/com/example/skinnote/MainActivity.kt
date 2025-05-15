@@ -23,10 +23,10 @@ class MainActivity : AppCompatActivity() {
     private var addProductDialog: AlertDialog? = null
 
     // lists for spinner data
-    private val faceProducts = mutableListOf("Select")
-    private val cleanserProducts = mutableListOf("Select")
-    private val serumProducts = mutableListOf("Select")
-    private val moisProducts = mutableListOf("Select")
+    private val faceProductList = mutableListOf("Select")
+    private val cleanserProductList = mutableListOf("Select")
+    private val serumProductList = mutableListOf("Select")
+    private val moisProductList = mutableListOf("Select")
 
     // adapters to bridge lists to respective
     private lateinit var faceAdapter: ArrayAdapter<String>
@@ -66,19 +66,19 @@ class MainActivity : AppCompatActivity() {
         timeText.format24Hour = "HH:mm"
 
         // connecting adapters to lists then linking em to spinners
-        faceAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, faceProducts)
+        faceAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, faceProductList)
         faceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         faceSpinner.adapter = faceAdapter
 
-        cleanserAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, cleanserProducts)
+        cleanserAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, cleanserProductList)
         cleanserAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         cleanserSpinner.adapter = cleanserAdapter
 
-        serumAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, serumProducts)
+        serumAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, serumProductList)
         serumAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         serumSpinner.adapter = serumAdapter
 
-        moisAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, moisProducts)
+        moisAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, moisProductList)
         moisAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         moisSpinner.adapter = moisAdapter
 
@@ -106,10 +106,27 @@ class MainActivity : AppCompatActivity() {
 
             doneBtn.setOnClickListener {
                 // turning each input to a string
-                val faceProduct = faceEditText.text.toString()
-                val cleanserProduct = cleanserEditText.text.toString()
-                val serumProduct = serumEditText.text.toString()
-                val moisProduct = moisEditText.text.toString()
+                val faceProduct = faceEditText.text.toString().trim()
+                val cleanserProduct = cleanserEditText.text.toString().trim()
+                val serumProduct = serumEditText.text.toString().trim()
+                val moisProduct = moisEditText.text.toString().trim()
+
+                if (faceProduct.isNotEmpty()) {
+                    faceProductList.add(faceProduct)
+                    faceAdapter.notifyDataSetChanged()   // letting adapter know to update the spinner
+                }
+                if (cleanserProduct.isNotEmpty()) {
+                    cleanserProductList.add(cleanserProduct)
+                    cleanserAdapter.notifyDataSetChanged()
+                }
+                if (serumProduct.isNotEmpty()) {
+                    serumProductList.add(serumProduct)
+                    serumAdapter.notifyDataSetChanged()
+                }
+                if (moisProduct.isNotEmpty()) {
+                    moisProductList.add(moisProduct)
+                    moisAdapter.notifyDataSetChanged()
+                }
 
                 addProductDialog?.dismiss()
             }
