@@ -2,6 +2,7 @@ package com.example.skinnote
 
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -20,6 +21,18 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
 
     private var addProductDialog: AlertDialog? = null
+
+    // lists for spinner data
+    private val faceProducts = mutableListOf("Select")
+    private val cleanserProducts = mutableListOf("Select")
+    private val serumProducts = mutableListOf("Select")
+    private val moisProducts = mutableListOf("Select")
+
+    // adapters to bridge lists to respective
+    private lateinit var faceAdapter: ArrayAdapter<String>
+    private lateinit var cleanserAdapter: ArrayAdapter<String>
+    private lateinit var serumAdapter: ArrayAdapter<String>
+    private lateinit var moisAdapter: ArrayAdapter<String>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,7 +88,11 @@ class MainActivity : AppCompatActivity() {
             addProductDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
             doneBtn.setOnClickListener {
-                // this will save all inputs and add to respective spinners
+                // turning each input to a string
+                val faceProduct = faceEditText.text.toString()
+                val cleanserProduct = cleanserEditText.text.toString()
+                val serumProduct = serumEditText.text.toString()
+                val moisProduct = moisEditText.text.toString()
 
                 addProductDialog?.dismiss()
             }
