@@ -129,7 +129,7 @@
         android:id="@+id/skinBar"
         android:layout_width="327dp"
         android:layout_height="35dp"
-        android:layout_marginTop="66dp"
+        android:layout_marginTop="108dp"
         android:max="3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,12 +139,13 @@
         android:id="@+id/skinfeelText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="sans-serif-light"
         android:text="How does your skin feel today?"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/skinBar" />
 
@@ -180,4 +181,12 @@
         app:layout_constraintTop_toBottomOf="@+id/skinfeelText"
         app:layout_constraintVertical_bias="0.371"
         app:srcCompat="@drawable/check" />
+
+    <TextView
+        android:id="@+id/emojiTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="😇"
+        android:textSize="24sp"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

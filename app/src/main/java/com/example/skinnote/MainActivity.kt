@@ -3,6 +3,7 @@ package com.example.skinnote
 import android.icu.util.Calendar
 import android.media.Image
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isInvisible
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -62,8 +64,15 @@ class MainActivity : AppCompatActivity() {
         val menuBtn = findViewById<ImageView>(R.id.menuBtn)
         val submitBtn = findViewById<ImageView>(R.id.submitBtn)
 
+        // seekbar
         val skinBar = findViewById<SeekBar>(R.id.skinBar)
 
+        // emoji
+        val emoji = findViewById<TextView>(R.id.emojiTxt)
+        emoji.visibility = View.INVISIBLE  // starts off invisible
+
+
+        // time/date formatting
         timeText.format12Hour = null
         timeText.format24Hour = "HH:mm"
 
@@ -91,6 +100,7 @@ class MainActivity : AppCompatActivity() {
             showAddProductDialog()
         }
 
+        var hasInteracted = false
         // seekbar code
         skinBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -99,6 +109,25 @@ class MainActivity : AppCompatActivity() {
                     1 -> skinfeelText.text = "Okay"
                     2 -> skinfeelText.text = "Good"
                     3 -> skinfeelText.text = "Perfect"
+                }
+
+                seekBar?.let {
+                    emoji.visibility = View.VISIBLE   // make emoji visible
+
+                     when (progress) {
+                        0 -> emoji.text = "😖"
+                        1 -> emoji.text = "😐"
+                        2 -> emoji.text = "🙂"
+                        3 -> emoji.text = "😇"
+                    }
+
+                    // calculate thumbs X position
+                    val thumb = it.thumb
+                    val offsetX = it.x + it.paddingLeft + ((it.width - it.paddingLeft - it.paddingRight) * progress / it.max.toFloat()) - (emoji.width / 2)
+                    val offsetY = it.y - emoji.height - 10
+
+                    emoji.x = offsetX
+                    emoji.y = offsetY
                 }
 
             }
