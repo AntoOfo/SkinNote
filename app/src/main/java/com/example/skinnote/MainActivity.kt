@@ -91,6 +91,22 @@ class MainActivity : AppCompatActivity() {
             showAddProductDialog()
         }
 
+        // seekbar code
+        skinBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                when (progress) {
+                    0 -> skinfeelText.text = "Poor"
+                    1 -> skinfeelText.text = "Okay"
+                    2 -> skinfeelText.text = "Good"
+                    3 -> skinfeelText.text = "Perfect"
+                }
+
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+
     }
 
     private fun showAddProductDialog() {
