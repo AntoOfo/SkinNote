@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
             showAddProductDialog()
         }
 
-        var hasInteracted = false
+        var emojiShown = false
         // seekbar code
         skinBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -109,6 +109,19 @@ class MainActivity : AppCompatActivity() {
                     1 -> skinfeelText.text = "Okay"
                     2 -> skinfeelText.text = "Good"
                     3 -> skinfeelText.text = "Perfect"
+                }
+
+                // emoji fade in when seekbar is moved
+                seekBar?.let {
+                    if (!emojiShown) {
+                        emoji.alpha = 0f
+                        emoji.visibility = View.VISIBLE
+                        emoji.animate()
+                            .alpha(1f)
+                            .setDuration(300)
+                            .start()
+                        emojiShown = true
+                    }
                 }
 
                 seekBar?.let {
@@ -125,9 +138,20 @@ class MainActivity : AppCompatActivity() {
                     val thumb = it.thumb
                     val offsetX = it.x + it.paddingLeft + ((it.width - it.paddingLeft - it.paddingRight) * progress / it.max.toFloat()) - (emoji.width / 2)
                     val offsetY = it.y - emoji.height - 10
-
                     emoji.x = offsetX
                     emoji.y = offsetY
+
+                    // emoji animation on movement
+                    emoji.scaleX = 0.8f
+                    emoji.scaleY = 0.8f
+                    emoji.animate()
+                        .x(offsetX)
+                        .y(offsetY)
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .setDuration(150)
+                        .start()
+
                 }
 
             }
