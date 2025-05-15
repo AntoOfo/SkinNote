@@ -127,7 +127,7 @@
             android:id="@+id/doneBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#AA00FF"
+            android:backgroundTint="#C51162"
             android:fontFamily="sans-serif-medium"
             android:text="Done"
             android:textSize="16sp" />
