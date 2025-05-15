@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@drawable/dialog_background"
     android:padding="18dp">
 
     <TextView
@@ -35,9 +36,10 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/faceEditText"
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:hint="Enter product" />
     </LinearLayout>
 
@@ -60,9 +62,10 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/cleanserEditText"
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:hint="Enter product" />
     </LinearLayout>
 
@@ -85,9 +88,10 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/serumEditText"
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:hint="Enter product" />
     </LinearLayout>
 
@@ -110,9 +114,10 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/moisEditText"
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:hint="Enter product" />
     </LinearLayout>
 
