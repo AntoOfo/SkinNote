@@ -1,6 +1,7 @@
 package com.example.skinnote
 
 import android.icu.util.Calendar
+import android.media.Image
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         // mutable texts
         val timeText = findViewById<TextClock>(R.id.timeText)
-        val dateText = findViewById<TextView>(R.id.dateText)
+        val dateText = findViewById<TextClock>(R.id.dateText)
         val skinfeelText = findViewById<TextView>(R.id.skinfeelText)
 
         // spinners
@@ -59,11 +60,15 @@ class MainActivity : AppCompatActivity() {
         // buttons
         val addBtn = findViewById<ImageView>(R.id.addBtn)
         val menuBtn = findViewById<ImageView>(R.id.menuBtn)
+        val submitBtn = findViewById<ImageView>(R.id.submitBtn)
 
         val skinBar = findViewById<SeekBar>(R.id.skinBar)
 
         timeText.format12Hour = null
         timeText.format24Hour = "HH:mm"
+
+        dateText.format12Hour = null
+        dateText.format24Hour = "dd MMMM yyyy"
 
         // connecting adapters to lists then linking em to spinners
         faceAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, faceProductList)
