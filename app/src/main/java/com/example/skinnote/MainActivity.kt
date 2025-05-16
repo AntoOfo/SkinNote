@@ -159,6 +159,9 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
+        submitBtn.setOnClickListener {
+
+        }
 
     }
 
