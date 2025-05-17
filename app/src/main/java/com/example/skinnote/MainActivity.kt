@@ -250,6 +250,11 @@ class MainActivity : AppCompatActivity() {
                     loadProductsIntoSpinners()
 
                     withContext(Dispatchers.Main) {
+                        faceEditText.text.clear()
+                        cleanserEditText.text.clear()
+                        serumEditText.text.clear()
+                        moisEditText.text.clear()
+
                         addProductDialog?.dismiss()
                         Toast.makeText(this@MainActivity, "Products added!", Toast.LENGTH_SHORT).show()
                     }
