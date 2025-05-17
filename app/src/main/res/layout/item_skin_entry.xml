@@ -55,9 +55,11 @@
             android:id="@+id/selfieImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:visibility="gone"
             android:scaleType="centerCrop"
-            android:layout_marginTop="8dp"
-            android:layout_gravity="center" />
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/selfieplaceholder"/>
 
     </LinearLayout>
 

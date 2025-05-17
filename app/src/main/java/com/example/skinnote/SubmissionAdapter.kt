@@ -1,8 +1,10 @@
 package com.example.skinnote
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -20,6 +22,7 @@ class SubmissionAdapter(private val submissions: List<SkinEntry>) :
                 val moisturiserText: TextView = itemView.findViewById(R.id.moisCard)
                 val seekBarValueText: TextView = itemView.findViewById(R.id.skinfeelCard)
                 val timestampText: TextView = itemView.findViewById(R.id.dateCard)
+                val selfieImage: ImageView = itemView.findViewById(R.id.selfieImage)
             }
 
     // inflates layout for each item
@@ -51,6 +54,13 @@ class SubmissionAdapter(private val submissions: List<SkinEntry>) :
         }
 
         holder.seekBarValueText.text = "Skin Feel: $skinFeelEmoji"
+
+        if (submission.imageUri != null) {
+            holder.selfieImage.visibility = View.VISIBLE
+            holder.selfieImage.setImageURI(Uri.parse(submission.imageUri))
+        } else {
+            holder.selfieImage.visibility = View.GONE
+        }
     }
 
 }
