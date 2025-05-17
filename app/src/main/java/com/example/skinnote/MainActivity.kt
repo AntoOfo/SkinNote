@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                     emoji.visibility = View.VISIBLE   // make emoji visible
 
                      when (progress) {
-                        0 -> emoji.text = "😖"
+                        0 -> emoji.text = "😡"
                         1 -> emoji.text = "😐"
                         2 -> emoji.text = "🙂"
                         3 -> emoji.text = "😇"

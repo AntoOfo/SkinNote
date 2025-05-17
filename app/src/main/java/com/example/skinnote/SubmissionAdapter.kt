@@ -38,11 +38,19 @@ class SubmissionAdapter(private val submissions: List<SkinEntry>) :
         holder.cleanserText.text = "Cleanser: ${submission.cleanser}"
         holder.serumText.text = "Serum: ${submission.serum}"
         holder.moisturiserText.text = "Moisturizer: ${submission.moisturiser}"
-        holder.seekBarValueText.text = "Skin Feel: ${submission.skinFeel}"
 
         val formattedTime = android.text.format.DateFormat.format("dd MM yyyy, HH:mm", submission.timestamp)
         holder.timestampText.text = "Date: $formattedTime"
-    }
 
+        val skinFeelEmoji = when (submission.skinFeel) {
+            0 -> "😡"
+            1 -> "😐"
+            2 -> "🙂"
+            3 -> "😇"
+            else -> "❓" // fallback for unexpected values
+        }
+
+        holder.seekBarValueText.text = "Skin Feel: $skinFeelEmoji"
+    }
 
 }
