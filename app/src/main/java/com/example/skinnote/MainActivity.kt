@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         val addBtn = findViewById<ImageView>(R.id.addBtn)
         val menuBtn = findViewById<ImageView>(R.id.menuBtn)
         val submitBtn = findViewById<ImageView>(R.id.submitBtn)
+        val cameraBtn = findViewById<ImageView>(R.id.cameraBtn)
 
         // seekbar
         val skinBar = findViewById<SeekBar>(R.id.skinBar)
@@ -123,6 +124,10 @@ class MainActivity : AppCompatActivity() {
         menuBtn.setOnClickListener {
             val intent = Intent(this, Submissions::class.java)
             startActivity(intent)
+        }
+
+        cameraBtn.setOnClickListener {
+            //to do
         }
 
         var emojiShown = false
