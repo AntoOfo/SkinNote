@@ -20,7 +20,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isInvisible
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -30,6 +32,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dao: SkinNoteDao
 
     private var addProductDialog: AlertDialog? = null
+
+    // spinner declarations
+    private lateinit var faceSpinner: Spinner
+    private lateinit var cleanserSpinner: Spinner
+    private lateinit var serumSpinner: Spinner
+    private lateinit var moisSpinner: Spinner
 
     // lists for spinner data
     private val faceProductList = mutableListOf("Select")
@@ -63,10 +71,10 @@ class MainActivity : AppCompatActivity() {
         val skinfeelText = findViewById<TextView>(R.id.skinfeelText)
 
         // spinners
-        val faceSpinner = findViewById<Spinner>(R.id.faceSpinner)
-        val cleanserSpinner = findViewById<Spinner>(R.id.cleanserSpinner)
-        val serumSpinner = findViewById<Spinner>(R.id.serumSpinner)
-        val moisSpinner = findViewById<Spinner>(R.id.moisSpinner)
+        faceSpinner = findViewById(R.id.faceSpinner)
+        cleanserSpinner = findViewById(R.id.cleanserSpinner)
+        serumSpinner = findViewById(R.id.serumSpinner)
+        moisSpinner = findViewById(R.id.moisSpinner)
 
         // buttons
         val addBtn = findViewById<ImageView>(R.id.addBtn)
@@ -192,7 +200,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, "Entry saved!", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     private fun showAddProductDialog() {
@@ -241,5 +248,42 @@ class MainActivity : AppCompatActivity() {
 
         addProductDialog?.show()
 
+    }
+
+    // loads products into spinners when app is launched
+    private fun loadProductsIntoSpinners() {
+        lifecycleScope.launch {
+            val faceWashListDb = dao.getProductsByType("faceWash").map {it.name}
+            val cleanserListDb = dao.getProductsByType("cleanser").map {it.name}
+            val serumListDb = dao.getProductsByType("serum").map {it.name}
+            val moisturiserListDb = dao.getProductsByType("moisturiser").map {it.name}
+
+            // switches to main thread to update ui
+            withContext(Dispatchers.Main) {
+
+                //clears existing lists and adds new lists from db
+                faceProductList.clear()
+                faceProductList.add("Select")
+                faceProductList.addAll(faceWashListDb)
+
+                cleanserProductList.clear()
+                cleanserProductList.add("Select")
+                cleanserProductList.addAll(cleanserListDb)
+
+                serumProductList.clear()
+                serumProductList.add("Select")
+                serumProductList.addAll(serumListDb)
+
+                moisProductList.clear()
+                moisProductList.add("Select")
+                moisProductList.addAll(moisturiserListDb)
+
+                faceAdapter.notifyDataSetChanged()
+                cleanserAdapter.notifyDataSetChanged()
+                serumAdapter.notifyDataSetChanged()
+                moisAdapter.notifyDataSetChanged()
+
+            }
+        }
     }
 }
