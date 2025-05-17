@@ -1,5 +1,6 @@
 package com.example.skinnote
 
+import android.content.Intent
 import android.icu.util.Calendar
 import android.media.Image
 import android.os.Bundle
@@ -117,6 +118,11 @@ class MainActivity : AppCompatActivity() {
 
         addBtn.setOnClickListener {
             showAddProductDialog()
+        }
+
+        menuBtn.setOnClickListener {
+            val intent = Intent(this, Submissions::class.java)
+            startActivity(intent)
         }
 
         var emojiShown = false
