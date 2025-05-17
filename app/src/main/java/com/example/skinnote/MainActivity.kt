@@ -65,6 +65,8 @@ class MainActivity : AppCompatActivity() {
         db = SkinNoteDatabase.getDatabase(this)
         dao = db.skinNoteDao()
 
+        loadProductsIntoSpinners()
+
         // mutable texts
         val timeText = findViewById<TextClock>(R.id.timeText)
         val dateText = findViewById<TextClock>(R.id.dateText)
@@ -225,24 +227,27 @@ class MainActivity : AppCompatActivity() {
                 val serumProduct = serumEditText.text.toString().trim()
                 val moisProduct = moisEditText.text.toString().trim()
 
-                if (faceProduct.isNotEmpty()) {
-                    faceProductList.add(faceProduct)
-                    faceAdapter.notifyDataSetChanged()   // letting adapter know to update the spinner
-                }
-                if (cleanserProduct.isNotEmpty()) {
-                    cleanserProductList.add(cleanserProduct)
-                    cleanserAdapter.notifyDataSetChanged()
-                }
-                if (serumProduct.isNotEmpty()) {
-                    serumProductList.add(serumProduct)
-                    serumAdapter.notifyDataSetChanged()
-                }
-                if (moisProduct.isNotEmpty()) {
-                    moisProductList.add(moisProduct)
-                    moisAdapter.notifyDataSetChanged()
-                }
+                lifecycleScope.launch {
+                    if (faceProduct.isNotEmpty()) {
+                        dao.insertProduct(ProductsEntry(name = faceProduct, type = "faceWash"))
+                    }
+                    if (cleanserProduct.isNotEmpty()) {
+                        dao.insertProduct(ProductsEntry(name = cleanserProduct, type = "cleanser"))
+                    }
+                    if (serumProduct.isNotEmpty()) {
+                        dao.insertProduct(ProductsEntry(name = serumProduct, type = "serum"))
+                    }
+                    if (moisProduct.isNotEmpty()) {
+                        dao.insertProduct(ProductsEntry(name = moisProduct, type = "moisturiser"))
+                    }
 
-                addProductDialog?.dismiss()
+                    loadProductsIntoSpinners()
+
+                    withContext(Dispatchers.Main) {
+                        addProductDialog?.dismiss()
+                        Toast.makeText(this@MainActivity, "Products added!", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
 
