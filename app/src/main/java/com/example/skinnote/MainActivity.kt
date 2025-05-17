@@ -23,6 +23,9 @@ import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var db: SkinNoteDatabase
+    private lateinit var dao: SkinNoteDao
+
     private var addProductDialog: AlertDialog? = null
 
     // lists for spinner data
@@ -47,6 +50,9 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        db = SkinNoteDatabase.getDatabase(this)
+        dao = db.skinNoteDao()
 
         // mutable texts
         val timeText = findViewById<TextClock>(R.id.timeText)
