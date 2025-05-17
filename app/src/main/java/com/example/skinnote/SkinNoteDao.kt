@@ -24,4 +24,5 @@ interface SkinNoteDao {
     // groups products of a certain type
     @Query("SELECT * FROM products WHERE type = :type")
     suspend fun getProductsByType(type: String): List<ProductsEntry>
+
 }
