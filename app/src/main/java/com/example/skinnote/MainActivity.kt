@@ -12,12 +12,15 @@ import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.TextClock
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isInvisible
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -166,7 +169,28 @@ class MainActivity : AppCompatActivity() {
         })
 
         submitBtn.setOnClickListener {
+            // grabbing spinner/seekbar choices
+            val faceWash = faceSpinner.selectedItem.toString()
+            val cleanser = cleanserSpinner.selectedItem.toString()
+            val serum = serumSpinner.selectedItem.toString()
+            val moisturiser = moisSpinner.selectedItem.toString()
+            val skinFeel = skinBar.progress
 
+            // making entry object (check entity class)
+            val entry = SkinEntry(
+                faceWash = faceWash,
+                cleanser = cleanser,
+                serum = serum,
+                moisturiser = moisturiser,
+                skinFeel = skinFeel
+            )
+
+            // puts this into room db
+            lifecycleScope.launch {
+                dao.insertEntry(entry)
+
+                Toast.makeText(this@MainActivity, "Entry saved!", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
