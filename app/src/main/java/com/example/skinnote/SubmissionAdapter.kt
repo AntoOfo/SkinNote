@@ -55,9 +55,9 @@ class SubmissionAdapter(private val submissions: List<SkinEntry>) :
 
         holder.seekBarValueText.text = "Skin Feel: $skinFeelEmoji"
 
-        if (submission.imageUri != null) {
+        if (submission.selfieUri != null) {
             holder.selfieImage.visibility = View.VISIBLE
-            holder.selfieImage.setImageURI(Uri.parse(submission.imageUri))
+            holder.selfieImage.setImageURI(Uri.parse(submission.selfieUri))
         } else {
             holder.selfieImage.visibility = View.GONE
         }

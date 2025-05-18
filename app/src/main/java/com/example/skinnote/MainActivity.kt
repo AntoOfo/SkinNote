@@ -1,9 +1,13 @@
 package com.example.skinnote
 
+import android.app.Activity
 import android.content.Intent
 import android.icu.util.Calendar
 import android.media.Image
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -15,8 +19,11 @@ import android.widget.TextClock
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isInvisible
@@ -24,7 +31,9 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +42,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dao: SkinNoteDao
 
     private var addProductDialog: AlertDialog? = null
+
+    // for image
+    private var selectedImageUri: Uri? = null
+    private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
+    private var selfieUri: Uri? = null
+
+    private val CAMERA_PERMISSION_CODE = 1001
 
     // spinner declarations
     private lateinit var faceSpinner: Spinner
@@ -105,7 +121,8 @@ class MainActivity : AppCompatActivity() {
         faceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         faceSpinner.adapter = faceAdapter
 
-        cleanserAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, cleanserProductList)
+        cleanserAdapter =
+            ArrayAdapter(this, android.R.layout.simple_spinner_item, cleanserProductList)
         cleanserAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         cleanserSpinner.adapter = cleanserAdapter
 
@@ -117,6 +134,20 @@ class MainActivity : AppCompatActivity() {
         moisAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         moisSpinner.adapter = moisAdapter
 
+        // handles camera result (if photo was taken...)
+        cameraLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Photo taken successfully!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(this@MainActivity, "Error occurred.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
         addBtn.setOnClickListener {
             showAddProductDialog()
         }
@@ -127,9 +158,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         cameraBtn.setOnClickListener {
-            //to do
+            checkCameraPermissionAndLaunch()
         }
 
+        // tracks if emoji is shown yet, for animations
         var emojiShown = false
         // seekbar code
         skinBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -157,7 +189,7 @@ class MainActivity : AppCompatActivity() {
                 seekBar?.let {
                     emoji.visibility = View.VISIBLE   // make emoji visible
 
-                     when (progress) {
+                    when (progress) {
                         0 -> emoji.text = "😡"
                         1 -> emoji.text = "😐"
                         2 -> emoji.text = "🙂"
@@ -166,7 +198,8 @@ class MainActivity : AppCompatActivity() {
 
                     // calculate thumbs X position
                     val thumb = it.thumb
-                    val offsetX = it.x + it.paddingLeft + ((it.width - it.paddingLeft - it.paddingRight) * progress / it.max.toFloat()) - (emoji.width / 2)
+                    val offsetX =
+                        it.x + it.paddingLeft + ((it.width - it.paddingLeft - it.paddingRight) * progress / it.max.toFloat()) - (emoji.width / 2)
                     val offsetY = it.y - emoji.height - 10
                     emoji.x = offsetX
                     emoji.y = offsetY
@@ -185,6 +218,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
@@ -203,7 +237,8 @@ class MainActivity : AppCompatActivity() {
                 cleanser = cleanser,
                 serum = serum,
                 moisturiser = moisturiser,
-                skinFeel = skinFeel
+                skinFeel = skinFeel,
+                selfieUri = selfieUri?.toString()
             )
 
             // puts this into room db
@@ -215,6 +250,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // builds dialog  & adds new products to db
     private fun showAddProductDialog() {
 
         if (addProductDialog == null) {
@@ -238,6 +274,7 @@ class MainActivity : AppCompatActivity() {
                 val serumProduct = serumEditText.text.toString().trim()
                 val moisProduct = moisEditText.text.toString().trim()
 
+                // inserts new products in db with type
                 lifecycleScope.launch {
                     if (faceProduct.isNotEmpty()) {
                         dao.insertProduct(ProductsEntry(name = faceProduct, type = "faceWash"))
@@ -254,6 +291,7 @@ class MainActivity : AppCompatActivity() {
 
                     loadProductsIntoSpinners()
 
+                    // clears edittexts when dialog is closed
                     withContext(Dispatchers.Main) {
                         faceEditText.text.clear()
                         cleanserEditText.text.clear()
@@ -261,7 +299,8 @@ class MainActivity : AppCompatActivity() {
                         moisEditText.text.clear()
 
                         addProductDialog?.dismiss()
-                        Toast.makeText(this@MainActivity, "Products added!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@MainActivity, "Products added!", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -274,10 +313,10 @@ class MainActivity : AppCompatActivity() {
     // loads products into spinners when app is launched
     private fun loadProductsIntoSpinners() {
         lifecycleScope.launch {
-            val faceWashListDb = dao.getProductsByType("faceWash").map {it.name}
-            val cleanserListDb = dao.getProductsByType("cleanser").map {it.name}
-            val serumListDb = dao.getProductsByType("serum").map {it.name}
-            val moisturiserListDb = dao.getProductsByType("moisturiser").map {it.name}
+            val faceWashListDb = dao.getProductsByType("faceWash").map { it.name }
+            val cleanserListDb = dao.getProductsByType("cleanser").map { it.name }
+            val serumListDb = dao.getProductsByType("serum").map { it.name }
+            val moisturiserListDb = dao.getProductsByType("moisturiser").map { it.name }
 
             // switches to main thread to update ui
             withContext(Dispatchers.Main) {
@@ -304,6 +343,53 @@ class MainActivity : AppCompatActivity() {
                 serumAdapter.notifyDataSetChanged()
                 moisAdapter.notifyDataSetChanged()
 
+            }
+        }
+    }
+
+    // creates image file in pictures directory
+    private fun createImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
+    }
+
+    // checks perms
+    private fun checkCameraPermissionAndLaunch() {
+        if (checkSelfPermission(android.Manifest.permission.CAMERA) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            launchCamera()
+        } else {
+            requestPermissions(arrayOf(android.Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
+        }
+    }
+
+    private fun launchCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val photoUri = FileProvider.getUriForFile(
+            this,
+            "${packageName}.provider",
+            createImageFile()
+        )
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        selfieUri = photoUri
+        cameraLauncher.launch(intent)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                launchCamera()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Camera permission is required to take selfies",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
