@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    Toast.makeText(this@MainActivity, "Error occurred.", Toast.LENGTH_SHORT).show()
+                    //
                 }
             }
 
@@ -273,6 +273,12 @@ class MainActivity : AppCompatActivity() {
                 val cleanserProduct = cleanserEditText.text.toString().trim()
                 val serumProduct = serumEditText.text.toString().trim()
                 val moisProduct = moisEditText.text.toString().trim()
+
+                if (faceProduct.isEmpty() && cleanserProduct.isEmpty() && serumProduct.isEmpty()
+                    && moisProduct.isEmpty()) {
+                    Toast.makeText(this@MainActivity, "Please enter at least one product", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
 
                 // inserts new products in db with type
                 lifecycleScope.launch {
