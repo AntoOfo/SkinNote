@@ -254,6 +254,7 @@ class MainActivity : AppCompatActivity() {
                 dao.insertEntry(entry)
 
                 Toast.makeText(this@MainActivity, "Entry saved!", Toast.LENGTH_SHORT).show()
+                resetForm()
             }
         }
     }
@@ -408,82 +409,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // what happens when user returns to main activity
-    override fun onResume() {
-        super.onResume()
-
-        // reset spinners
+    private fun resetForm() {
         faceSpinner.setSelection(0)
         cleanserSpinner.setSelection(0)
         serumSpinner.setSelection(0)
         moisSpinner.setSelection(0)
 
-        // resetting seekbar and emojis
-
-        // temporarily removes seekbarlistener to avoid messing with logic
         val skinBar = findViewById<SeekBar>(R.id.skinBar)
-        skinBar.setOnSeekBarChangeListener(null)
-
         skinBar.progress = 0
-
         hasSkinBarMoved = false
+
+        val skinfeelText = findViewById<TextView>(R.id.skinfeelText)
 
         val emoji = findViewById<TextView>(R.id.emojiTxt)
         emoji.visibility = View.INVISIBLE
 
-        skinBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            var emojiShown = false
-
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser) {
-                    hasSkinBarMoved = true
-                }
-
-                val skinfeelText = findViewById<TextView>(R.id.skinfeelText)
-                when (progress) {
-                    0 -> skinfeelText.text = "Poor"
-                    1 -> skinfeelText.text = "Okay"
-                    2 -> skinfeelText.text = "Good"
-                    3 -> skinfeelText.text = "Perfect"
-                }
-
-                if (!emojiShown && fromUser) {
-                    emoji.alpha = 0f
-                    emoji.visibility = View.VISIBLE
-                    emoji.animate().alpha(1f).setDuration(300).start()
-                    emojiShown = true
-                }
-
-                emoji.visibility = View.VISIBLE
-                when (progress) {
-                    0 -> emoji.text = "😡"
-                    1 -> emoji.text = "😐"
-                    2 -> emoji.text = "🙂"
-                    3 -> emoji.text = "😇"
-                }
-
-                seekBar?.let {
-                    val offsetX =
-                        it.x + it.paddingLeft + ((it.width - it.paddingLeft - it.paddingRight) * progress / it.max.toFloat()) - (emoji.width / 2)
-                    val offsetY = it.y - emoji.height - 10
-                    emoji.x = offsetX
-                    emoji.y = offsetY
-
-                    emoji.scaleX = 0.8f
-                    emoji.scaleY = 0.8f
-                    emoji.animate()
-                        .x(offsetX)
-                        .y(offsetY)
-                        .scaleX(1f)
-                        .scaleY(1f)
-                        .setDuration(150)
-                        .start()
-                }
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
-
+        selfieUri = null
     }
 }
