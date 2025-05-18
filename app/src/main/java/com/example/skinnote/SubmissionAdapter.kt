@@ -73,15 +73,21 @@ class SubmissionAdapter(private val submissions: List<SkinEntry>) :
         val formattedTime = android.text.format.DateFormat.format("dd MM yyyy, HH:mm", submission.timestamp)
         holder.timestampText.text = "Date: $formattedTime"
 
-        val skinFeelEmoji = when (submission.skinFeel) {
-            0 -> "😡"
-            1 -> "😐"
-            2 -> "🙂"
-            3 -> "😇"
-            else -> "❓" // fallback for unexpected values
-        }
+        if (submission.skinFeel != null) {
+            val skinFeelEmoji = when (submission.skinFeel) {
+                0 -> "😡"
+                1 -> "😐"
+                2 -> "🙂"
+                3 -> "😇"
+                else -> "❓" // fallback for unexpected values
+            }
 
-        holder.seekBarValueText.text = "Skin Feel: $skinFeelEmoji"
+            holder.seekBarValueText.visibility = View.VISIBLE
+            holder.seekBarValueText.text = "Skin Feel: $skinFeelEmoji"
+        } else {
+            holder.seekBarValueText.visibility = View.GONE
+
+        }
 
         if (submission.selfieUri != null) {
             holder.selfieImage.visibility = View.VISIBLE

@@ -68,6 +68,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var serumAdapter: ArrayAdapter<String>
     private lateinit var moisAdapter: ArrayAdapter<String>
 
+    private var hasSkinBarMoved = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -166,6 +168,10 @@ class MainActivity : AppCompatActivity() {
         // seekbar code
         skinBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    hasSkinBarMoved = true
+                }
+
                 when (progress) {
                     0 -> skinfeelText.text = "Poor"
                     1 -> skinfeelText.text = "Okay"
@@ -231,13 +237,15 @@ class MainActivity : AppCompatActivity() {
             val moisturiser = moisSpinner.selectedItem.toString()
             val skinFeel = skinBar.progress
 
+            val skinFeelValue: Int? = if (hasSkinBarMoved) skinBar.progress else null
+
             // making entry object (check entity class)
             val entry = SkinEntry(
                 faceWash = faceWash,
                 cleanser = cleanser,
                 serum = serum,
                 moisturiser = moisturiser,
-                skinFeel = skinFeel,
+                skinFeel = skinFeelValue,
                 selfieUri = selfieUri?.toString()
             )
 

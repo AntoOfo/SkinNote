@@ -11,7 +11,7 @@ data class SkinEntry(       // each row is a whole entry
     val cleanser: String,
     val serum: String,
     val moisturiser: String,
-    val skinFeel: Int,
+    val skinFeel: Int?,
     // for recycler view maybe
     val timestamp: Long = System.currentTimeMillis(),
     val selfieUri: String? = null

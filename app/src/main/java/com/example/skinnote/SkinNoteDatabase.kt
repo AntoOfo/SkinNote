@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 // connecting both entities and dao, 1st entity
-@Database(entities = [SkinEntry::class, ProductsEntry::class], version = 2)
+@Database(entities = [SkinEntry::class, ProductsEntry::class], version = 3)
 abstract class SkinNoteDatabase : RoomDatabase() {
 
     // bringing in dao
