@@ -237,6 +237,24 @@ class MainActivity : AppCompatActivity() {
             val moisturiser = moisSpinner.selectedItem.toString()
             val skinFeel = skinBar.progress
 
+            val isFaceSelected = faceWash != "Select"
+            val isCleanserSelected = cleanser != "Select"
+            val isSerumSelected = serum != "Select"
+            val isMoisSelected = moisturiser != "Select"
+            val isSelfieTaken = selfieUri != null
+
+            if (
+                !isFaceSelected &&
+                !isCleanserSelected &&
+                !isSerumSelected &&
+                !isMoisSelected &&
+                !isSelfieTaken &&
+                !hasSkinBarMoved
+            ) {
+                Toast.makeText(this@MainActivity, "Please fill out at least one field!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val skinFeelValue: Int? = if (hasSkinBarMoved) skinBar.progress else null
 
             // making entry object (check entity class)
