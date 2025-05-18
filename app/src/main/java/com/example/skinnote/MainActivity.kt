@@ -407,4 +407,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        // reset spinners
+        faceSpinner.setSelection(0)
+        cleanserSpinner.setSelection(0)
+        serumSpinner.setSelection(0)
+        moisSpinner.setSelection(0)
+
+    }
 }
