@@ -420,6 +420,7 @@ class MainActivity : AppCompatActivity() {
         hasSkinBarMoved = false
 
         val skinfeelText = findViewById<TextView>(R.id.skinfeelText)
+        skinfeelText.text = "How does your skin feel today?"
 
         val emoji = findViewById<TextView>(R.id.emojiTxt)
         emoji.visibility = View.INVISIBLE
