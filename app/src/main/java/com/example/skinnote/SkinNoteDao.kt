@@ -17,6 +17,14 @@ interface SkinNoteDao {
     @Query("SELECT * FROM skincare_entries ORDER BY timestamp DESC")
     suspend fun getAllEntries(): List<SkinEntry>
 
+    // update an entry
+    @androidx.room.Update
+    suspend fun updateEntry(entry: SkinEntry)
+
+    // delete an entry
+    @androidx.room.Delete
+    suspend fun deleteEntry(entry: SkinEntry)
+
     // adds new products to products db (from dialog)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProduct(product: ProductsEntry)
