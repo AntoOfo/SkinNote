@@ -37,10 +37,38 @@ class SubmissionAdapter(private val submissions: List<SkinEntry>) :
     // bind data to views
     override fun onBindViewHolder(holder: SubmissionViewHolder, position: Int) {
         val submission = submissions[position]
-        holder.faceWashText.text = "Face Wash: ${submission.faceWash}"
-        holder.cleanserText.text = "Cleanser: ${submission.cleanser}"
-        holder.serumText.text = "Serum: ${submission.serum}"
-        holder.moisturiserText.text = "Moisturizer: ${submission.moisturiser}"
+
+        // face wash
+        if (submission.faceWash == "Select" || submission.faceWash.isNullOrEmpty()) {
+            holder.faceWashText.visibility = View.GONE
+        } else {
+            holder.faceWashText.visibility = View.VISIBLE
+            holder.faceWashText.text = "Face Wash: ${submission.faceWash}"
+        }
+
+        // cleanser
+        if (submission.cleanser == "Select" || submission.cleanser.isNullOrEmpty()) {
+            holder.cleanserText.visibility = View.GONE
+        } else {
+            holder.cleanserText.visibility = View.VISIBLE
+            holder.cleanserText.text = "Cleanser: ${submission.cleanser}"
+        }
+
+        // serum
+        if (submission.serum == "Select" || submission.serum.isNullOrEmpty()) {
+            holder.serumText.visibility = View.GONE
+        } else {
+            holder.serumText.visibility = View.VISIBLE
+            holder.serumText.text = "Serum: ${submission.serum}"
+        }
+
+        // moisturiser
+        if (submission.moisturiser == "Select" || submission.moisturiser.isNullOrEmpty()) {
+            holder.moisturiserText.visibility = View.GONE
+        } else {
+            holder.moisturiserText.visibility = View.VISIBLE
+            holder.moisturiserText.text = "Moisturiser: ${submission.moisturiser}"
+        }
 
         val formattedTime = android.text.format.DateFormat.format("dd MM yyyy, HH:mm", submission.timestamp)
         holder.timestampText.text = "Date: $formattedTime"
