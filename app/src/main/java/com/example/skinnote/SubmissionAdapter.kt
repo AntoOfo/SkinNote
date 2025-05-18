@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.motion.widget.MotionScene.Transition.TransitionOnClick
 import androidx.recyclerview.widget.RecyclerView
 
 // connects data to UI
 
 // adapter for recyclerview to display each submission
-class SubmissionAdapter(private val submissions: List<SkinEntry>) :
+class SubmissionAdapter(private val submissions: List<SkinEntry>,
+    private val onImageClick: (Uri) -> Unit) :
         RecyclerView.Adapter<SubmissionAdapter.SubmissionViewHolder>() {
 
             // viewholder references stuff in the cardview xml
@@ -90,10 +92,16 @@ class SubmissionAdapter(private val submissions: List<SkinEntry>) :
         }
 
         if (submission.selfieUri != null) {
+            val uri = Uri.parse(submission.selfieUri)
             holder.selfieImage.visibility = View.VISIBLE
-            holder.selfieImage.setImageURI(Uri.parse(submission.selfieUri))
+            holder.selfieImage.setImageURI(uri)
+
+            holder.selfieImage.setOnClickListener {
+                onImageClick(uri)
+            }
         } else {
             holder.selfieImage.visibility = View.GONE
+            holder.selfieImage.setOnClickListener(null)
         }
     }
 
