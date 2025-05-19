@@ -61,6 +61,40 @@
             android:layout_gravity="center"
             android:src="@drawable/selfieplaceholder"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="end">
+
+            <ImageView
+                android:id="@+id/editBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/pen"
+                android:contentDescription="Edit"
+                android:clickable="true"
+                android:focusable="true"
+                card_view:tint="#007AFF" />
+
+            <ImageView
+                android:id="@+id/deleteBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/bin"
+                android:contentDescription="Delete"
+                android:clickable="true"
+                android:focusable="true"
+                android:tint="#FF3B30" />
+
+        </LinearLayout>
+
     </LinearLayout>
+
+
+
+
 
 </androidx.cardview.widget.CardView>
