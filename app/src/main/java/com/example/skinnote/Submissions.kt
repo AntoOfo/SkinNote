@@ -4,6 +4,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.SeekBar
+import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -40,9 +42,24 @@ class Submissions : AppCompatActivity() {
         // get data from db nd shows it
         lifecycleScope.launch {
             val entries = dao.getAllEntries()
-            adapter = SubmissionAdapter(entries) { clickedImageUri ->
-                showImageDialog(clickedImageUri)
-            }
+
+            adapter = SubmissionAdapter(
+                entries.toMutableList(),
+                onImageClick = { clickedImageUri ->
+                    showImageDialog(clickedImageUri)
+                },
+                onEditClick = { entryToEdit ->
+                    showEditDialog(entryToEdit)  // gonna make edit dialog
+                },
+                onDeleteClick = { entryToDelete ->
+                    lifecycleScope.launch {
+                        dao.deleteEntry(entryToDelete)
+                        loadEntries()
+                    }
+                }
+
+            )
+
             recyclerView.adapter = adapter
         }
 
@@ -70,5 +87,79 @@ class Submissions : AppCompatActivity() {
             imageDialog?.show()
         }
 
+    }
+
+    private fun showEditDialog(entry: SkinEntry) {
+
+        val dialogView = layoutInflater.inflate(R.layout.edit_dialog, null) // You can design this XML
+        val skinBar = dialogView.findViewById<SeekBar>(R.id.editSeekBar)
+        val saveBtn = dialogView.findViewById<Button>(R.id.saveEditBtn)
+        val faceSpinner = dialogView.findViewById<Spinner>(R.id.faceEditSpinner)
+        val cleanserSpinner = dialogView.findViewById<Spinner>(R.id.cleanserEditSpinner)
+        val serumSpinner = dialogView.findViewById<Spinner>(R.id.serumEditSpinner)
+        val moisturiserSpinner = dialogView.findViewById<Spinner>(R.id.moisturiserEditSpinner)
+
+
+        skinBar.progress = entry.skinFeel ?: 0
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
+
+        lifecycleScope.launch {
+            // loads products from db
+            val faceWashProducts = dao.getProductsByType("faceWash").map { it.name }
+            val cleanserProducts = dao.getProductsByType("cleanser").map { it.name }
+            val serumProducts = dao.getProductsByType("serum").map { it.name }
+            val moisturiserProducts = dao.getProductsByType("moisturiser").map { it.name }
+
+            // helper function to setup spinner with list & select current value
+            fun setupSpinner(spinner: Spinner, items: List<String>, selectedValue: String) {
+                // select option at the start to allow for a "no selection"
+                val options = listOf("Select") + items
+                val adapter = android.widget.ArrayAdapter(
+                    this@Submissions,
+                    android.R.layout.simple_spinner_item,
+                    options
+                )
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinner.adapter = adapter
+
+                val index = options.indexOf(selectedValue).takeIf { it >= 0 } ?: 0
+                spinner.setSelection(index)
+            }
+
+            setupSpinner(faceSpinner, faceWashProducts, entry.faceWash)
+            setupSpinner(cleanserSpinner, cleanserProducts, entry.cleanser)
+            setupSpinner(serumSpinner, serumProducts, entry.serum)
+            setupSpinner(moisturiserSpinner, moisturiserProducts, entry.moisturiser)
+
+            dialog.show()
+        }
+
+        saveBtn.setOnClickListener {
+            lifecycleScope.launch {
+                // updates entry with spinner choices
+                entry.faceWash = faceSpinner.selectedItem.toString().takeIf { it != "Select" } ?: ""
+                entry.cleanser = cleanserSpinner.selectedItem.toString().takeIf { it != "Select" } ?: ""
+                entry.serum = serumSpinner.selectedItem.toString().takeIf { it != "Select" } ?: ""
+                entry.moisturiser = moisturiserSpinner.selectedItem.toString().takeIf { it != "Select" } ?: ""
+                entry.skinFeel = skinBar.progress
+
+                dao.updateEntry(entry)
+                loadEntries()
+                dialog.dismiss()
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun loadEntries() {
+        lifecycleScope.launch {
+            val updatedEntries = dao.getAllEntries()
+            adapter.updateData(updatedEntries)
+        }
     }
 }
