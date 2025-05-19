@@ -1,5 +1,7 @@
 package com.example.skinnote
 
+import android.content.Intent
+import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
@@ -31,6 +33,14 @@ class Submissions : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        val backBtn = findViewById<ImageView>(R.id.backButton)
+
+        backBtn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
         recyclerView = findViewById(R.id.submissionsRecyclerView)
