@@ -151,17 +151,63 @@ class MainActivity : AppCompatActivity() {
             }
 
         addBtn.setOnClickListener {
-            showAddProductDialog()
+            addBtn.animate()
+                .scaleX(0.9f)
+                .scaleY(0.9f)
+                .alpha(0.5f)
+                .setDuration(100)
+                .withEndAction {
+                    showAddProductDialog()
+
+                    addBtn.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .alpha(1f)
+                        .setDuration(100)
+                        .start()
+                }
+                .start()
         }
 
         menuBtn.setOnClickListener {
             val intent = Intent(this, Submissions::class.java)
-            startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+
+            menuBtn.animate()
+                .scaleX(0.9f)
+                .scaleY(0.9f)
+                .alpha(0.5f)
+                .setDuration(100)
+                .withEndAction {
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+
+                    menuBtn.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .alpha(1f)
+                        .setDuration(100)
+                        .start()
+                }
+                .start()
         }
 
         cameraBtn.setOnClickListener {
-            checkCameraPermissionAndLaunch()
+            cameraBtn.animate()
+                .scaleX(0.9f)
+                .scaleY(0.9f)
+                .alpha(0.5f)
+                .setDuration(100)
+                .withEndAction {
+                    checkCameraPermissionAndLaunch()
+
+                    cameraBtn.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .alpha(1f)
+                        .setDuration(100)
+                        .start()
+                }
+                .start()
         }
 
         // tracks if emoji is shown yet, for animations
@@ -231,50 +277,68 @@ class MainActivity : AppCompatActivity() {
         })
 
         submitBtn.setOnClickListener {
-            // grabbing spinner/seekbar choices
-            val faceWash = faceSpinner.selectedItem.toString()
-            val cleanser = cleanserSpinner.selectedItem.toString()
-            val serum = serumSpinner.selectedItem.toString()
-            val moisturiser = moisSpinner.selectedItem.toString()
-            val skinFeel = skinBar.progress
+            submitBtn.animate()
+                .scaleX(0.9f)
+                .scaleY(0.9f)
+                .alpha(0.5f)
+                .setDuration(100)
+                .withEndAction {
+                    submitBtn.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .alpha(1f)
+                        .setDuration(100)
+                        .start()
+                    // grabbing spinner/seekbar choices
+                    val faceWash = faceSpinner.selectedItem.toString()
+                    val cleanser = cleanserSpinner.selectedItem.toString()
+                    val serum = serumSpinner.selectedItem.toString()
+                    val moisturiser = moisSpinner.selectedItem.toString()
+                    val skinFeel = skinBar.progress
 
-            val isFaceSelected = faceWash != "Select"
-            val isCleanserSelected = cleanser != "Select"
-            val isSerumSelected = serum != "Select"
-            val isMoisSelected = moisturiser != "Select"
-            val isSelfieTaken = selfieUri != null
+                    val isFaceSelected = faceWash != "Select"
+                    val isCleanserSelected = cleanser != "Select"
+                    val isSerumSelected = serum != "Select"
+                    val isMoisSelected = moisturiser != "Select"
+                    val isSelfieTaken = selfieUri != null
 
-            if (
-                !isFaceSelected &&
-                !isCleanserSelected &&
-                !isSerumSelected &&
-                !isMoisSelected &&
-                !isSelfieTaken &&
-                !hasSkinBarMoved
-            ) {
-                Toast.makeText(this@MainActivity, "Please fill out at least one field!", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+                    if (
+                        !isFaceSelected &&
+                        !isCleanserSelected &&
+                        !isSerumSelected &&
+                        !isMoisSelected &&
+                        !isSelfieTaken &&
+                        !hasSkinBarMoved
+                    ) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Please fill out at least one field!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@withEndAction
+                    }
 
-            val skinFeelValue: Int? = if (hasSkinBarMoved) skinBar.progress else null
+                    val skinFeelValue: Int? = if (hasSkinBarMoved) skinBar.progress else null
 
-            // making entry object (check entity class)
-            val entry = SkinEntry(
-                faceWash = faceWash,
-                cleanser = cleanser,
-                serum = serum,
-                moisturiser = moisturiser,
-                skinFeel = skinFeelValue,
-                selfieUri = selfieUri?.toString()
-            )
+                    // making entry object (check entity class)
+                    val entry = SkinEntry(
+                        faceWash = faceWash,
+                        cleanser = cleanser,
+                        serum = serum,
+                        moisturiser = moisturiser,
+                        skinFeel = skinFeelValue,
+                        selfieUri = selfieUri?.toString()
+                    )
 
-            // puts this into room db
-            lifecycleScope.launch {
-                dao.insertEntry(entry)
+                    // puts this into room db
+                    lifecycleScope.launch {
+                        dao.insertEntry(entry)
 
-                Toast.makeText(this@MainActivity, "Entry saved!", Toast.LENGTH_SHORT).show()
-                resetForm()
-            }
+                        Toast.makeText(this@MainActivity, "Entry saved!", Toast.LENGTH_SHORT).show()
+                        resetForm()
+                    }
+                }
+                .start()
         }
     }
 
@@ -296,6 +360,7 @@ class MainActivity : AppCompatActivity() {
             addProductDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
             doneBtn.setOnClickListener {
+
                 // turning each input to a string
                 val faceProduct = faceEditText.text.toString().trim()
                 val cleanserProduct = cleanserEditText.text.toString().trim()
@@ -303,24 +368,49 @@ class MainActivity : AppCompatActivity() {
                 val moisProduct = moisEditText.text.toString().trim()
 
                 if (faceProduct.isEmpty() && cleanserProduct.isEmpty() && serumProduct.isEmpty()
-                    && moisProduct.isEmpty()) {
-                    Toast.makeText(this@MainActivity, "Please enter at least one product", Toast.LENGTH_SHORT).show()
+                    && moisProduct.isEmpty()
+                ) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Please enter at least one product",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
 
                 // inserts new products in db with type
                 lifecycleScope.launch {
                     if (faceProduct.isNotEmpty()) {
-                        dao.insertProduct(ProductsEntry(name = faceProduct, type = "faceWash"))
+                        dao.insertProduct(
+                            ProductsEntry(
+                                name = faceProduct,
+                                type = "faceWash"
+                            )
+                        )
                     }
                     if (cleanserProduct.isNotEmpty()) {
-                        dao.insertProduct(ProductsEntry(name = cleanserProduct, type = "cleanser"))
+                        dao.insertProduct(
+                            ProductsEntry(
+                                name = cleanserProduct,
+                                type = "cleanser"
+                            )
+                        )
                     }
                     if (serumProduct.isNotEmpty()) {
-                        dao.insertProduct(ProductsEntry(name = serumProduct, type = "serum"))
+                        dao.insertProduct(
+                            ProductsEntry(
+                                name = serumProduct,
+                                type = "serum"
+                            )
+                        )
                     }
                     if (moisProduct.isNotEmpty()) {
-                        dao.insertProduct(ProductsEntry(name = moisProduct, type = "moisturiser"))
+                        dao.insertProduct(
+                            ProductsEntry(
+                                name = moisProduct,
+                                type = "moisturiser"
+                            )
+                        )
                     }
 
                     loadProductsIntoSpinners()
@@ -333,16 +423,20 @@ class MainActivity : AppCompatActivity() {
                         moisEditText.text.clear()
 
                         addProductDialog?.dismiss()
-                        Toast.makeText(this@MainActivity, "Products added!", Toast.LENGTH_SHORT)
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Products added!",
+                            Toast.LENGTH_SHORT
+                        )
                             .show()
                     }
                 }
             }
         }
-
         addProductDialog?.show()
-
     }
+
+
 
     // loads products into spinners when app is launched
     private fun loadProductsIntoSpinners() {

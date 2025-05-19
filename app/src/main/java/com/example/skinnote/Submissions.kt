@@ -39,8 +39,24 @@ class Submissions : AppCompatActivity() {
 
         backBtn.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+
+            backBtn.animate()
+                .scaleX(0.9f)
+                .scaleY(0.9f)
+                .alpha(0.5f)
+                .setDuration(100)
+                .withEndAction {
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+
+                    backBtn.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .alpha(1f)
+                        .setDuration(100)
+                        .start()
+                }
+                .start()
         }
 
         recyclerView = findViewById(R.id.submissionsRecyclerView)
