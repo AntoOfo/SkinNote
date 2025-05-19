@@ -57,9 +57,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        android:padding="16dp"
 
-        app:cardBackgroundColor="#EBF0FA"
+        android:padding="16dp"
+        app:cardBackgroundColor="#F0F8FF"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
