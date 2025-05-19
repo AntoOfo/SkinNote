@@ -119,20 +119,20 @@ class MainActivity : AppCompatActivity() {
         dateText.format24Hour = "dd MMMM yyyy"
 
         // connecting adapters to lists then linking em to spinners
-        faceAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, faceProductList)
+        faceAdapter = ArrayAdapter(this, R.layout.spinner_item, faceProductList)
         faceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         faceSpinner.adapter = faceAdapter
 
         cleanserAdapter =
-            ArrayAdapter(this, android.R.layout.simple_spinner_item, cleanserProductList)
+            ArrayAdapter(this, R.layout.spinner_item, cleanserProductList)
         cleanserAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         cleanserSpinner.adapter = cleanserAdapter
 
-        serumAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, serumProductList)
+        serumAdapter = ArrayAdapter(this, R.layout.spinner_item, serumProductList)
         serumAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         serumSpinner.adapter = serumAdapter
 
-        moisAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, moisProductList)
+        moisAdapter = ArrayAdapter(this, R.layout.spinner_item, moisProductList)
         moisAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         moisSpinner.adapter = moisAdapter
 
