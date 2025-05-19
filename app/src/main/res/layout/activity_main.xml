@@ -54,154 +54,156 @@
         android:id="@+id/spinnerCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
+        android:padding="16dp"
+
+        app:cardBackgroundColor="#EBF0FA"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/dateText"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dateText">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:divider="?android:attr/dividerHorizontal"
-            android:showDividers="middle"
-            android:dividerPadding="12dp">
+            android:dividerPadding="12dp"
+            android:orientation="vertical"
+            android:showDividers="middle">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingTop="24dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="24dp">
 
                 <TextView
                     android:id="@+id/fwashText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="Face Wash:"
                     android:textSize="20sp"
-                    android:fontFamily="sans-serif-medium"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/faceSpinner"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintWidth_percent="0.5"
-                    android:layout_marginEnd="8dp"/>
+                    app:layout_constraintEnd_toStartOf="@id/faceSpinner"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.5" />
 
                 <Spinner
                     android:id="@+id/faceSpinner"
                     android:layout_width="0dp"
                     android:layout_height="46dp"
                     android:background="@drawable/spinner_background"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/fwashText" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fwashText"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingTop="24dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="24dp">
 
                 <TextView
                     android:id="@+id/cleanserText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="Cleanser:"
                     android:textSize="20sp"
-                    android:fontFamily="sans-serif-medium"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/cleanserSpinner"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintWidth_percent="0.5"
-                    android:layout_marginEnd="8dp"/>
+                    app:layout_constraintEnd_toStartOf="@id/cleanserSpinner"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.5" />
 
                 <Spinner
                     android:id="@+id/cleanserSpinner"
                     android:layout_width="0dp"
                     android:layout_height="46dp"
                     android:background="@drawable/spinner_background"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/cleanserText" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/cleanserText"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingTop="24dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="24dp">
 
                 <TextView
                     android:id="@+id/serumText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="Serum:"
                     android:textSize="20sp"
-                    android:fontFamily="sans-serif-medium"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/serumSpinner"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintWidth_percent="0.5"
-                    android:layout_marginEnd="8dp"/>
+                    app:layout_constraintEnd_toStartOf="@id/serumSpinner"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.5" />
 
                 <Spinner
                     android:id="@+id/serumSpinner"
                     android:layout_width="0dp"
                     android:layout_height="46dp"
                     android:background="@drawable/spinner_background"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/serumText" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/serumText"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingTop="24dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="24dp">
 
                 <TextView
                     android:id="@+id/moisText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="Moisturiser:"
                     android:textSize="20sp"
-                    android:fontFamily="sans-serif-medium"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/moisSpinner"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintWidth_percent="0.5"
-                    android:layout_marginEnd="8dp"/>
+                    app:layout_constraintEnd_toStartOf="@id/moisSpinner"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.5" />
 
                 <Spinner
                     android:id="@+id/moisSpinner"
                     android:layout_width="0dp"
                     android:layout_height="46dp"
                     android:background="@drawable/spinner_background"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/moisText" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/moisText"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
@@ -211,7 +213,7 @@
         android:id="@+id/skinBar"
         android:layout_width="327dp"
         android:layout_height="35dp"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="56dp"
         android:max="3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -221,7 +223,7 @@
         android:id="@+id/skinfeelText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="sans-serif-light"
         android:text="How does your skin feel today?"
         android:textAlignment="center"
@@ -232,15 +234,41 @@
         app:layout_constraintTop_toBottomOf="@+id/skinBar" />
 
     <ImageView
+        android:id="@+id/cameraBtn"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="48dp"
+        android:scaleX="1.25"
+        android:scaleY="1.25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/skinfeelText"
+        app:layout_constraintVertical_bias="0.674"
+        app:srcCompat="@drawable/camera" />
+
+    <ImageView
+        android:id="@+id/submitBtn"
+        android:layout_width="51dp"
+        android:layout_height="59dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/skinfeelText"
+        app:layout_constraintVertical_bias="0.692"
+        app:srcCompat="@drawable/check" />
+
+    <ImageView
         android:id="@+id/addBtn"
         android:layout_width="60dp"
         android:layout_height="64dp"
         android:layout_marginStart="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/submitBtn"
-        app:layout_constraintHorizontal_bias="0.464"
+        app:layout_constraintHorizontal_bias="0.471"
         app:layout_constraintStart_toEndOf="@+id/cameraBtn"
         app:layout_constraintTop_toBottomOf="@+id/skinfeelText"
+        app:layout_constraintVertical_bias="0.72"
         app:srcCompat="@drawable/plusbutton" />
 
     <ImageView
@@ -254,18 +282,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/menubutton" />
 
-    <ImageView
-        android:id="@+id/submitBtn"
-        android:layout_width="51dp"
-        android:layout_height="59dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/skinfeelText"
-        app:layout_constraintVertical_bias="0.533"
-        app:srcCompat="@drawable/check" />
-
     <TextView
         android:id="@+id/emojiTxt"
         android:layout_width="wrap_content"
@@ -274,16 +290,4 @@
         android:textSize="24sp"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
-        android:id="@+id/cameraBtn"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="52dp"
-        android:scaleX="1.25"
-        android:scaleY="1.25"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/skinfeelText"
-        app:layout_constraintVertical_bias="0.491"
-        app:srcCompat="@drawable/camera" />
 </androidx.constraintlayout.widget.ConstraintLayout>
