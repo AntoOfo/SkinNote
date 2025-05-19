@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 // connects data to UI
 
 // adapter for recyclerview to display each submission
-class SubmissionAdapter(private val submissions: List<SkinEntry>,
-    private val onImageClick: (Uri) -> Unit) :
+class SubmissionAdapter(private val submissions: MutableList<SkinEntry>,
+    private val onImageClick: (Uri) -> Unit,
+    private val onEditClick: (SkinEntry) -> Unit,
+    private val onDeleteClick: (SkinEntry) -> Unit) :
         RecyclerView.Adapter<SubmissionAdapter.SubmissionViewHolder>() {
 
             // viewholder references stuff in the cardview xml
@@ -25,6 +27,8 @@ class SubmissionAdapter(private val submissions: List<SkinEntry>,
                 val seekBarValueText: TextView = itemView.findViewById(R.id.skinfeelCard)
                 val timestampText: TextView = itemView.findViewById(R.id.dateCard)
                 val selfieImage: ImageView = itemView.findViewById(R.id.selfieImage)
+                val editBtn: ImageView = itemView.findViewById(R.id.editBtn)
+                val deleteBtn: ImageView = itemView.findViewById(R.id.deleteBtn)
             }
 
     // inflates layout for each item
@@ -103,6 +107,19 @@ class SubmissionAdapter(private val submissions: List<SkinEntry>,
             holder.selfieImage.visibility = View.GONE
             holder.selfieImage.setOnClickListener(null)
         }
+
+        holder.editBtn.setOnClickListener {
+            onEditClick(submission)
+        }
+        holder.deleteBtn.setOnClickListener {
+            onDeleteClick(submission)
+        }
+    }
+
+    fun updateData(newEntries: List<SkinEntry>) {
+        submissions.clear()
+        submissions.addAll(newEntries)
+        notifyDataSetChanged()
     }
 
 }
