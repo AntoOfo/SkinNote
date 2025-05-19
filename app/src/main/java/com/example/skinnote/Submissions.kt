@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class Submissions : AppCompatActivity() {
 
@@ -87,6 +91,7 @@ class Submissions : AppCompatActivity() {
             )
 
             recyclerView.adapter = adapter
+            loadEntries()
         }
 
 
@@ -186,6 +191,13 @@ class Submissions : AppCompatActivity() {
         lifecycleScope.launch {
             val updatedEntries = dao.getAllEntries()
             adapter.updateData(updatedEntries)
+
+            val titleText = findViewById<TextView>(R.id.titleText)
+            if (updatedEntries.isEmpty()) {
+                titleText.text = "No entries yet"
+            } else {
+                titleText.text = "Entries"
+            }
         }
     }
 }

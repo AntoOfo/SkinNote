@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="12dp"
-        android:text="Last updated: May 19, 2025"
+        android:text="Consistency is key!"
         android:textColor="#666666"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
