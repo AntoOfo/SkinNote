@@ -24,6 +24,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isInvisible
@@ -110,13 +111,16 @@ class MainActivity : AppCompatActivity() {
         val emoji = findViewById<TextView>(R.id.emojiTxt)
         emoji.visibility = View.INVISIBLE  // starts off invisible
 
+        val dateFont = ResourcesCompat.getFont(this, R.font.poppins)
 
         // time/date formatting
         timeText.format12Hour = null
         timeText.format24Hour = "HH:mm"
+        timeText.typeface = dateFont
 
         dateText.format12Hour = null
         dateText.format24Hour = "dd MMMM yyyy"
+        dateText.typeface = dateFont
 
         // connecting adapters to lists then linking em to spinners
         faceAdapter = ArrayAdapter(this, R.layout.spinner_item, faceProductList)
