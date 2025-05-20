@@ -25,6 +25,9 @@ interface SkinNoteDao {
     @androidx.room.Delete
     suspend fun deleteEntry(entry: SkinEntry)
 
+    @androidx.room.Delete
+    suspend fun deleteProduct(product: ProductsEntry)
+
     // adds new products to products db (from dialog)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProduct(product: ProductsEntry)
@@ -32,5 +35,8 @@ interface SkinNoteDao {
     // groups products of a certain type
     @Query("SELECT * FROM products WHERE type = :type")
     suspend fun getProductsByType(type: String): List<ProductsEntry>
+
+    @Query("SELECT * FROM products")
+    suspend fun getAllProducts(): List<ProductsEntry>
 
 }

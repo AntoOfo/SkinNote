@@ -44,6 +44,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dao: SkinNoteDao
 
     private var addProductDialog: AlertDialog? = null
+    private var helpDialog: AlertDialog? = null
+    private var deleteDialog: AlertDialog? = null
 
     // for image
     private var selectedImageUri: Uri? = null
@@ -106,6 +108,7 @@ class MainActivity : AppCompatActivity() {
         val menuBtn = findViewById<ImageView>(R.id.menuBtn)
         val submitBtn = findViewById<ImageView>(R.id.submitBtn)
         val cameraBtn = findViewById<ImageView>(R.id.cameraBtn)
+        val helpBtn = findViewById<ImageView>(R.id.helpBtn)
 
         // seekbar
         val skinBar = findViewById<SeekBar>(R.id.skinBar)
@@ -156,6 +159,26 @@ class MainActivity : AppCompatActivity() {
                     //
                 }
             }
+
+        helpBtn.setOnClickListener {
+            helpBtn.animate()
+                .scaleX(0.9f)
+                .scaleY(0.9f)
+                .alpha(0.5f)
+                .setDuration(100)
+                .withEndAction {
+                    // intention here
+                    showHelpDialog()
+
+                    helpBtn.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .alpha(1f)
+                        .setDuration(100)
+                        .start()
+                }
+                .start()
+        }
 
         addBtn.setOnClickListener {
             addBtn.animate()
@@ -349,6 +372,112 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showHelpDialog() {
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.help_dialog, null)
+
+        val deleteDialogBtn = dialogView.findViewById<Button>(R.id.deleteDialogBtn)
+
+        deleteDialogBtn.setOnClickListener {
+            helpDialog?.dismiss()
+            showDeleteProductDialog()
+        }
+
+        builder.setView(dialogView)
+        helpDialog = builder.create()
+        helpDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        helpDialog?.show()
+
+
+    }
+
+    private fun showDeleteProductDialog() {
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.delete_dialog, null)
+        val spinner = dialogView.findViewById<Spinner>(R.id.deleteProductSpinner)
+        val deleteBtn = dialogView.findViewById<Button>(R.id.deleteProductBtn)
+
+        builder.setView(dialogView)
+        deleteDialog = builder.create()
+        deleteDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        lifecycleScope.launch {
+            val db = SkinNoteDatabase.getDatabase(this@MainActivity)
+            val dao = db.skinNoteDao()
+            val productList = dao.getAllProducts()
+
+            if (productList.isEmpty()) {
+                Toast.makeText(
+                    this@MainActivity, "No products to delete",
+                    Toast.LENGTH_SHORT
+                ).show()
+                deleteDialog?.dismiss()
+                return@launch
+            }
+
+            val adapter = ArrayAdapter(
+                this@MainActivity,
+                android.R.layout.simple_spinner_item,
+                productList.map { it.name }
+            ).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+
+            spinner.adapter = adapter
+
+            deleteBtn.setOnClickListener {
+                val selectedProductName = spinner.selectedItem as String
+                val selectedProduct = productList.firstOrNull { it.name == selectedProductName }
+
+                if (selectedProduct != null) {
+                    lifecycleScope.launch {
+                        dao.deleteProduct(selectedProduct)
+
+                        // fetchin all products for updated variable
+                        val updatedProductList = dao.getAllProducts()
+
+                        faceProductList.clear()
+                        cleanserProductList.clear()
+                        serumProductList.clear()
+                        moisProductList.clear()
+
+                        faceProductList.add("Select")
+                        cleanserProductList.add("Select")
+                        serumProductList.add("Select")
+                        moisProductList.add("Select")
+
+                        // repopulating with updated db data
+                        for (product in updatedProductList) {
+                            when (product.type) {
+                                "Face Wash" -> faceProductList.add(product.name)
+                                "Cleanser" -> cleanserProductList.add(product.name)
+                                "Serum" -> serumProductList.add(product.name)
+                                "Moisturiser" -> moisProductList.add(product.name)
+                            }
+                        }
+
+                        // Notify all adapters
+                        faceAdapter.notifyDataSetChanged()
+                        cleanserAdapter.notifyDataSetChanged()
+                        serumAdapter.notifyDataSetChanged()
+                        moisAdapter.notifyDataSetChanged()
+
+                        faceSpinner.setSelection(0)
+                        cleanserSpinner.setSelection(0)
+                        serumSpinner.setSelection(0)
+                        moisSpinner.setSelection(0)
+
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Deleted: ${selectedProduct.name}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        deleteDialog?.dismiss()
+                    }
+                }
+            }
+        }
+        deleteDialog?.show()
+    }
+
     // builds dialog  & adds new products to db
     private fun showAddProductDialog() {
 
@@ -364,7 +493,6 @@ class MainActivity : AppCompatActivity() {
 
             builder.setView(dialogView)
             addProductDialog = builder.create()
-            addProductDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
             doneBtn.setOnClickListener {
 
