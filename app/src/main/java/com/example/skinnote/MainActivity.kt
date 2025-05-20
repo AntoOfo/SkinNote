@@ -2,8 +2,6 @@ package com.example.skinnote
 
 import android.app.Activity
 import android.content.Intent
-import android.icu.util.Calendar
-import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -29,7 +27,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isInvisible
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
