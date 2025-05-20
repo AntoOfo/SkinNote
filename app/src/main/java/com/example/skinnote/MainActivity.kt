@@ -377,10 +377,29 @@ class MainActivity : AppCompatActivity() {
         val dialogView = layoutInflater.inflate(R.layout.help_dialog, null)
 
         val deleteDialogBtn = dialogView.findViewById<Button>(R.id.deleteDialogBtn)
+        val closeBtn = dialogView.findViewById<Button>(R.id.closeIntroDialogBtn)
+
+        lifecycleScope.launch {
+        val productList = dao.getAllProducts()
 
         deleteDialogBtn.setOnClickListener {
             helpDialog?.dismiss()
-            showDeleteProductDialog()
+
+            if (productList.isEmpty()) {
+                Toast.makeText(
+                    this@MainActivity, "No products to delete",
+                    Toast.LENGTH_SHORT
+                ).show()
+                deleteDialog?.dismiss()
+                return@setOnClickListener
+            } else {
+                showDeleteProductDialog()
+            }
+        }
+        }
+
+        closeBtn.setOnClickListener {
+            helpDialog?.dismiss()
         }
 
         builder.setView(dialogView)
@@ -405,15 +424,6 @@ class MainActivity : AppCompatActivity() {
             val db = SkinNoteDatabase.getDatabase(this@MainActivity)
             val dao = db.skinNoteDao()
             val productList = dao.getAllProducts()
-
-            if (productList.isEmpty()) {
-                Toast.makeText(
-                    this@MainActivity, "No products to delete",
-                    Toast.LENGTH_SHORT
-                ).show()
-                deleteDialog?.dismiss()
-                return@launch
-            }
 
             val adapter = ArrayAdapter(
                 this@MainActivity,
