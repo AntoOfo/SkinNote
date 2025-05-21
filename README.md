@@ -6,7 +6,7 @@
 
 ## 🚀 **Features**
 
--  Choose and save skincare products (cleanser, serum, moisturizer, etc.)
+-  Choose and save skincare products
 -  Save your product choices using **Room database**
 -  Upload selfies with each log entry
 -  View and manage product logs in a **RecyclerView**
